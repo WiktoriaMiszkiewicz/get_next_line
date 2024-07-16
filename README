@@ -1,0 +1,62 @@
+### Co trzeba zrobić?
+Musisz napisać funkcję w języku C, która odczytuje linie tekstu z pliku jedna po drugiej. Wyobraź sobie, że funkcja działa jak linijka w książce - każda linijka to nowa linia tekstu.
+
+### Jak ma działać kod?
+
+1. **Prototyp funkcji:**
+   ```c
+   char *get_next_line(int fd);
+   ```
+   - `int fd` to deskryptor pliku, który mówi funkcji, z którego pliku ma czytać.
+
+2. **Co robi funkcja?**
+   - Odczytuje jedną linię tekstu z pliku za każdym razem, gdy jest wywoływana.
+   - Zwraca tę linię tekstu jako string.
+   - Jeśli nie ma więcej linii do odczytu, zwraca `NULL`.
+
+### Krok po kroku:
+
+1. **Otwieranie pliku:**
+   - Musisz otworzyć plik, aby uzyskać deskryptor pliku (`fd`).
+   - Używasz funkcji `open` w C.
+
+2. **Czytanie pliku:**
+   - Funkcja `get_next_line` używa funkcji `read`, aby odczytać dane z pliku.
+   - Funkcja `read` odczytuje określoną ilość bajtów (znaków) naraz.
+
+3. **Znalezienie końca linii:**
+   - Funkcja szuka znaku nowej linii (`\n`) w odczytanych danych.
+   - Jeśli znajdzie, zwraca tekst do tego znaku włącznie.
+
+4. **Zarządzanie pamięcią:**
+   - Funkcja dynamicznie przydziela pamięć na odczytane linie, używając `malloc`.
+   - Pamiętaj, aby zwolnić tę pamięć po jej użyciu, używając `free`.
+
+5. **Obsługa błędów:**
+   - Jeśli coś pójdzie nie tak (np. plik się skończył), funkcja zwraca `NULL`.
+
+### Przykład:
+
+1. **Otwieranie pliku:**
+   ```c
+   int fd = open("plik.txt", O_RDONLY);
+   ```
+
+2. **Czytanie linii:**
+   ```c
+   char *line;
+   while ((line = get_next_line(fd)) != NULL) {
+       printf("%s", line);
+       free(line);
+   }
+   ```
+
+3. **Zamykanie pliku:**
+   ```c
+   close(fd);
+   ```
+
+### Podsumowanie
+Twoja funkcja `get_next_line` ma odczytać linie z pliku jedna po drugiej i zwrócić je jako stringi. Musisz zadbać o poprawne zarządzanie pamięcią i obsługę błędów. Gdy funkcja nie ma więcej linii do odczytu, zwraca `NULL`.
+
+To jak zabawa w czytanie książki po jednej linijce na raz. Za każdym razem, gdy wywołujesz `get_next_line`, dostajesz kolejną linijkę tekstu, aż skończysz całą książkę (plik).
